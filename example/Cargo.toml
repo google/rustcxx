@@ -1,0 +1,16 @@
+[package]
+name = "rustcxx_example"
+version = "0.1.0"
+license = "Apache-2.0"
+authors = ["Paul Liétar <paul@lietar.net>"]
+build = "build.rs"
+
+[[bin]]
+name = "rustcxx_example"
+path = "main.rs"
+
+[dependencies.rustcxx_plugin]
+path = "../plugin"
+
+[build-dependencies.rustcxx_codegen]
+path = "../codegen"

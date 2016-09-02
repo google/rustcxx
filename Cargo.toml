@@ -1,0 +1,2 @@
+[workspace]
+members = ["codegen", "common", "example", "plugin"]

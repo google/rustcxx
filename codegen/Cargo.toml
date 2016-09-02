@@ -1,0 +1,26 @@
+[package]
+name = "rustcxx_codegen"
+version = "0.1.0"
+authors = ["Paul Liétar <paul@lietar.net>"]
+
+description = "Using C++ from Rust made easy"
+repository = "https://github.com/google/rustcxx"
+readme = "../README.md"
+license = "Apache-2.0"
+keywords = ["c", "c++", "cxx", "cpp", "ffi"]
+
+[lib]
+path = "lib.rs"
+
+[[bin]]
+path = "main.rs"
+name = "rustcxx_codegen"
+
+[features]
+default = ["gcc"]
+
+[dependencies]
+gcc = { version = "0.3", optional = true }
+
+[dependencies.rustcxx_common]
+path = "../common"

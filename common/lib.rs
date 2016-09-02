@@ -26,7 +26,7 @@ use std::iter;
 
 use syntax::abi::Abi;
 use syntax::ast::{self, DUMMY_NODE_ID};
-use syntax::codemap::{Span, Spanned, respan, spanned, DUMMY_SP};
+use syntax::codemap::{Span, Spanned, dummy_spanned, respan, spanned, DUMMY_SP};
 use syntax::errors::Handler;
 use syntax::ext::base::ExtCtxt;
 use syntax::ext::build::AstBuilder;
@@ -346,7 +346,7 @@ impl Function<Rust> {
         let deny = ecx.meta_list(
             self.span,
             token::intern("deny").as_str(),
-            vec![ecx.meta_word(self.span, token::intern("private_no_mangle_fns").as_str())]);
+            vec![ecx.meta_list_item_word(self.span, token::intern("private_no_mangle_fns").as_str())]);
 
         let attrs = vec![
             ecx.attribute(self.span, no_mangle),
@@ -354,7 +354,7 @@ impl Function<Rust> {
         ];
 
         let fn_item = ast::ItemKind::Fn(
-            decl, ast::Unsafety::Unsafe, ast::Constness::NotConst,
+            decl, ast::Unsafety::Unsafe, dummy_spanned(ast::Constness::NotConst),
             Abi::C, ast::Generics::default(), self.body.clone());
 
         P(ast::Item {

@@ -27,7 +27,7 @@ use rustcxx_common::{Cxx, Rust, Function, parse_rust_macro, tokens_to_cpp};
 use syntax::parse;
 use syntax::ast;
 use syntax::codemap::respan;
-use syntax::ext::base::ExtCtxt;
+use syntax::ext::base::{DummyMacroLoader, ExtCtxt};
 use syntax::ext::expand;
 use syntax::visit;
 
@@ -61,8 +61,8 @@ impl Codegen {
 
             let cfg = expand::ExpansionConfig::default("foo".to_string());
 
-            let mut gates = Vec::new();
-            let ecx = ExtCtxt::new(&sess, Vec::new(), cfg, &mut gates);
+            let mut loader = DummyMacroLoader;
+            let ecx = ExtCtxt::new(&sess, Vec::new(), cfg, &mut loader);
 
             let mut visitor = CodegenVisitor::new(&ecx);
             visit::walk_crate(&mut visitor, &krate);
@@ -144,7 +144,7 @@ impl <'a, 'b> CodegenVisitor<'a, 'b> {
     }
 }
 
-impl <'a, 'b> visit::Visitor<'a> for CodegenVisitor<'a, 'b> {
+impl <'a, 'b> visit::Visitor for CodegenVisitor<'a, 'b> {
     fn visit_mac(&mut self, mac: &ast::Mac) {
         match mac.node.path.to_string().as_ref() {
             "cxx" => {

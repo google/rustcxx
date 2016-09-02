@@ -59,7 +59,7 @@ fn convert_path<'a>(handler: &'a Handler, path: &ast::Path)
 
     match path.segments.split_first() {
         None => unreachable!("path must have at least one segment"),
-        Some((segment, [])) => {
+        Some((segment, &[])) => {
             let name : &str = &segment.identifier.name.as_str();
             Ok(match name {
                 "u64"   => Cow::from("uint64_t"),

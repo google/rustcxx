@@ -25,11 +25,12 @@ use rustcxx_common::{parse_rust_macro, Function, Cxx, Rust};
 use rustc_plugin::Registry;
 
 use syntax::abi::Abi;
-use syntax::ast::{self, TokenTree};
+use syntax::ast;
 use syntax::codemap::Span;
 use syntax::ext::base::{DummyResult, ExtCtxt, MacEager, MacResult};
 use syntax::ext::build::AstBuilder;
 use syntax::parse::token;
+use syntax::tokenstream::TokenTree;
 use syntax::util::small_vector::SmallVector;
 
 #[plugin_registrar]
@@ -90,8 +91,8 @@ fn cxx_macro<'cx>(ecx: &'cx mut ExtCtxt,
     };
 
     let block = ecx.block(span,
-                          vec![ecx.stmt_item(span, item)],
-                          Some(call_expr));
+                          vec![ecx.stmt_item(span, item),
+                               ecx.stmt_expr(call_expr)]);
 
     MacEager::expr(ecx.expr_block(block))
 }

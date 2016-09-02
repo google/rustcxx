@@ -25,7 +25,7 @@ use std::hash::{SipHasher, Hash, Hasher};
 use std::iter;
 
 use syntax::abi::Abi;
-use syntax::ast::{self, TokenTree, DUMMY_NODE_ID};
+use syntax::ast::{self, DUMMY_NODE_ID};
 use syntax::codemap::{Span, Spanned, respan, spanned, DUMMY_SP};
 use syntax::errors::Handler;
 use syntax::ext::base::ExtCtxt;
@@ -35,6 +35,7 @@ use syntax::parse::common::SeqSep;
 use syntax::parse::parser::Parser;
 use syntax::print::pprust::token_to_string;
 use syntax::ptr::P;
+use syntax::tokenstream::TokenTree;
 
 /// Language specific parsing.
 ///

@@ -30,10 +30,11 @@ use syntax::codemap::{Span, Spanned, respan, spanned, DUMMY_SP};
 use syntax::errors::Handler;
 use syntax::ext::base::ExtCtxt;
 use syntax::ext::build::AstBuilder;
+use syntax::ext::quote::rt::ToTokens;
 use syntax::parse::{token, PResult};
 use syntax::parse::common::SeqSep;
 use syntax::parse::parser::Parser;
-use syntax::print::pprust::token_to_string;
+use syntax::print::pprust::{token_to_string, tts_to_string};
 use syntax::ptr::P;
 use syntax::tokenstream::TokenTree;
 
@@ -42,7 +43,7 @@ use syntax::tokenstream::TokenTree;
 /// The two macros, `cxx!` and `rust!`, share a similar syntax.
 /// This trait differentiates the two, such that the rest of the parsing code can be reused.
 pub trait Lang {
-    type Body: Hash;
+    type Body: ToTokens;
     type ArgValue;
 
     fn parse_body<'a>(parser: &mut Parser<'a>) -> PResult<'a, Self::Body>;
@@ -132,7 +133,7 @@ impl <L: Lang> Function<L> {
 
         let hash = {
             let mut hasher = SipHasher::new();
-            body.hash(&mut hasher);
+            tts_to_string(&body.to_tokens(ecx)).hash(&mut hasher);
             hasher.finish()
         };
 

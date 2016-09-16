@@ -9,18 +9,18 @@ and vice-versa.
 
 cxx_inline! {
     #include <stdint.h>
-    uint32_t double_it(uint32_t x) {
+    uint32_t square_it(uint32_t x) {
         return rust![(x: u32) -> u32 {
-            println!("Rust: Doubling {}", x);
+            println!("Rust: Squaring {}", x);
             x * x
         }];
     }
 }
 
 let x: u32 = 5;
-let double = unsafe { cxx![(x: u32) -> u32 {
-    std::cout << "C++: Doubling " << x << std::endl;
-    double_it(x)
+let square = unsafe { cxx![(x: u32) -> u32 {
+    std::cout << "C++: Squaring " << x << std::endl;
+    square_it(x)
 }] };
 ```
 

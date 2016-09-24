@@ -189,10 +189,18 @@ impl <'a, 'b> visit::Visitor for CodegenVisitor<'a, 'b> {
 
 #[cfg(feature="gcc")]
 pub fn build<P>(path: P) where P: AsRef<std::path::Path> {
+    build_with_config(path, |_| {})
+}
+
+#[cfg(feature="gcc")]
+pub fn build_with_config<P, F>(path: P, f: F)
+        where P: AsRef<std::path::Path>,
+              F: FnOnce(&mut gcc::Config) {
     let out = std::path::PathBuf::from(std::env::var("OUT_DIR").unwrap()).join("rustcxx_generated.cpp");
     Codegen::generate(path.as_ref()).write_code_to_path(&out).expect("Could not write generated source");
 
     let mut config = gcc::Config::new();
     config.cpp(true).file(&out);
+    f(&mut config);
     config.compile("librustcxx_generated.a");
 }

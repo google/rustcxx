@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#![crate_name="rustcxx_codegen"]
 #![feature(rustc_private)]
 
 extern crate syntax;

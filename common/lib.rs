@@ -133,7 +133,7 @@ impl <L: Lang> Function<L> {
 
         let hash = {
             let mut hasher = SipHasher::new();
-            tts_to_string(&body.to_tokens(ecx)).hash(&mut hasher);
+            tts_to_string(tts).hash(&mut hasher);
             hasher.finish()
         };
 

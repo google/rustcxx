@@ -36,9 +36,11 @@ build = "build.rs"
 
 [dependencies.rustcxx_plugin]
 git = "https://github.com/google/rustcxx"
+branch = "unstable"
 
 [build-dependencies.rustcxx_codegen]
 git = "https://github.com/google/rustcxx"
+branch = "unstable"
 ```
 
 and create a `build.rs` file containing the following:
